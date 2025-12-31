@@ -85,19 +85,18 @@ p {
 }
 
 /* -------------------------------------------------
-   Responsive iframe wrapper for embedded maps
+   Base map wrapper – 16:9 (desktop)
    ------------------------------------------------- */
 .iframe-wrapper {
     position: relative;
     width: 100%;
-    /* 16:9 aspect ratio – adjust if the map looks squashed */
-    padding-bottom: 56.25%;   /* 9 / 16 = 0.5625 → 56.25% */
+    padding-bottom: 56.25%;   /* 16:9 */
     overflow: hidden;
-    background: #f0f0f0;      /* fallback background while loading */
+    background: #f0f0f0;
     border: 1px solid #ddd;
     border-radius: 4px;
+    transition: padding-bottom 0.3s ease;   /* optional smooth resize */
 }
-
 .iframe-wrapper iframe {
     position: absolute;
     top: 0;
@@ -105,4 +104,16 @@ p {
     width: 100%;
     height: 100%;
     border: 0;
+}
+
+/* -------------------------------------------------
+   Portrait‑mode map for small screens (≤600 px)
+   ------------------------------------------------- */
+@media (max-width: 600px) {
+    .iframe-wrapper {
+        padding-bottom: 133.33%;   /* 3:4 portrait */
+    }
+    #map {
+        margin-bottom: 2rem;       /* give a little breathing room */
+    }
 }
