@@ -56,10 +56,6 @@ button[type="submit"] {
     cursor: pointer;
 }
 
-/* Show‑more toggle */
-.hidden { display: none; }
-#moreBtn { background: none; border: none; color: #0066cc; cursor: pointer; margin-top: .5rem; }
-
 /* Footer */
 footer {
     text-align: center;
@@ -86,4 +82,27 @@ p {
    use a more specific selector, e.g.: */
 #about p {
     margin-bottom: 1.2rem;
+}
+
+/* -------------------------------------------------
+   Responsive iframe wrapper for embedded maps
+   ------------------------------------------------- */
+.iframe-wrapper {
+    position: relative;
+    width: 100%;
+    /* 16:9 aspect ratio – adjust if the map looks squashed */
+    padding-bottom: 56.25%;   /* 9 / 16 = 0.5625 → 56.25% */
+    overflow: hidden;
+    background: #f0f0f0;      /* fallback background while loading */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.iframe-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
