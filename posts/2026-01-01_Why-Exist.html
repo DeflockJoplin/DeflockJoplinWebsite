@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Why Does Deflock Joplin Exist?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../style.css"><!-- relative path back to root CSS -->
+</head>
+<body>
+
+<header class="site-nav">
+    <nav>
+        <a href="../index.html" class="logo">Deflock Joplin</a>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../facts.html">Facts</a></li>
+            <li><a href="../blog.html">Blog</a></li>
+            <li><a href="../index.html#map">Map</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <article class="blog-article">
+        <h1>Why Does Deflock Joplin Exist?</h1>
+
+        <!-- Optional subtitle / date -->
+        <p class="meta">Published on <time datetime="YYYY-MM-DD">2026-01-01</time></p>
+        <p>By: Michael</p>
+
+        <!-- Content sections – delete any you don’t need -->
+        <section class="intro">
+            <!-- Introductory paragraph(s) -->
+            <p>
+                I first learned of Flock Safety from friends sending me the <a href="https://deflock.me">Deflock map</a> and <a href="https://www.youtube.com/watch?v=Pp9MwZkHiMQ">YouTube videos</a> by Benn Jordan.  I was alarmed by all of the concerns
+                leveled against the company and began looking into these cameras further.  In the course of my research I learned about abuses, mistakes, and cybersecurity issues. I'm an IT professional in my day job, so this subject caught my attention.
+            </p>
+        </section>
+
+        <section class="body">
+            <!-- Main body text -->
+             <h2>Cybersecurity Problems at Flock</h2>
+             <p>
+                The cameras themselves have been shown to be vulnerable to hackers.  We aren't talking sophisticated attacks either.  Cameras are easily taken over by anyone with physical access and knowledge of the button combinations required.[1]   
+                The cameras are also vulnerable to more sophisticated attacks, such as plugging in a low cost USB tool that can take over the device in seconds. 
+                The cameras have easily accessed USB ports making this fairly easy for someone with the time and forethought.[1] The cameras store around 30 days of raw recordings on the internal storage of the camera. [1]
+                Using various means, an attacker can easily gain access to the recordings, view them, delete them, and alter them. It should be noted that Flock's cameras take photos when any movement is detected, not just vehicle movements or license plates. [1] 
+                This means that hackers have access to much more information than simple license plate data.
+             </p>
+             <p>
+                The software on the cameras is running in debug mode.  This means that an attacker can modify running code, change memory contents, and hide traces of their activity much easier. 
+                Flock Safety ALPRs have been shown to be running Android 8.1.0.[1]  This version of Android has not received security updates since 2021.  Using an operating system this out of date would automatically be a compliance violation for many
+                types of organizations, such as a doctor's office or hospital.  There are many, many known high severity security vulnerabilties in this version of Android and they are no longer being fixed.
+             </p>
+             <p>
+                Flock has also misconfigured their own devices and left them open for anyone to access.  Recently, 404 Media and Benn Jordan found dozens of open Flock Condor cameras.  These cameras are different from the LPR types in Joplin in that they actually are intended to record people.
+                The AI on them locks onto, zooms in, and follows people while recording.  Benn and the journalists at 404 were actually able to use footage of themselves from Flock's cameras in their reporting on the issue.  At least one of the cameras they found was pointed at a playground
+                for children. [2][3]
+            </p>
+            <p>
+                Flock also failed to enforce multi-factor authentication for at least some time.  This is like when you log in with your bank and they text you a code to make sure its you.  According to TechCrunch.com, this allowed Flock logins to be sold on Russian hacking forums. [4]
+                I could talk about these types of issues with Flock for quite a while, but the point is that the devices themselves are not secure and Flock is not taking care when building them or installing them. Flock is also
+                a central repository for massive amounts of very sensitive data, which makes them a target for cybercriminals.
+             </p>
+             <h2>Abuses and Mistakes</h2>
+             <p>
+                As I researched all of these security problems, I began running across other news regarding Flock, rarely good.  
+             </p>
+             <p>
+                Braselton, GA - According to AccessWDUN.com, the police chief was arrested for using his access to stalk and harass a woman. Unfortunately, a judge failed to grant her a temporary order of protection despite showing credible evidence of this behavior months before he was arrested.[5]
+             </p>
+             <p>
+                Sedgwick, KS - According to kansas.com a police chief was found to be using the cameras to track his ex-girlfriend and her new boyfriend.[6]
+             </p>
+             <p>
+                Redmond, WA - According to king5.com, the police arrested a man based on the fact that his son had an arrest warrant.  He drove by a Flock camera, police were alerted it was related to his son, and they apprehended the father driving the vehicle.  
+                The vehicle was registered in the father's name.  The man was injured during the arrest and he is now afraid to drive near Flock's cameras. The city has paused its cameras.[7]
+             </p>
+             <p>
+                Columbine Valley, CO - According to CBSNews.com, a woman was confronted at her home by police and accused of stealing.  The officer refused to view footage from her video equipped Rivian vehicle.  She was forced to prove her innocence over the course of weeks.  
+                At the end of the ordeal, the police chief emailed her letting her know the summons would not be filed and said "nicely done btw."[8]
+             </p>
+             <p>
+                Aurora, CO - According to APnews.com, a woman and her four girls were detained face down at gunpoint on hot concrete because police were alerted by Flock to her vehicle.  The plate flock alerted on was for a stolen Montana Motorcycle.  The woman was driving a Dodge van.  
+                She was paid $1.9 million.[9]  Aurora's taxpayers are stuck with the bill, not Flock.  In fact, Flock claims complete indemnity for any mistakes made as a result of use of their system.  All of these abuses and mistakes are even more concerning
+                now that Flock is going to be using its AI to report suspicious driving patterns to police according to a report by the ACLU.[10]
+             </p>
+             <h2>Bringing it Home</h2>
+             <p>
+                I became very concerned upon learning all of this and began to look into Joplin's relationship with Flock. I knew we had some cameras from the Deflock map, and I had actually seen some of them too.  I couldn't find anyone talking about these cameras locally.
+                I couldn't find a news story, I couldn't find a policy for using Flock, and I couldn't find City Council approval either.  I realized that if I wanted to learn more, I was going to have to dig in.  I learned that audit logs from other cities often contain data from your own,
+                so I downloaded a set of logs, extracted Joplin's activity, grabbed a friend, and we got to work.  I filed records requests with Joplin, and then also nearby cities.  
+             </p>
+        </section>
+
+        <section class="conclusion">
+            <!-- Closing thoughts / calls to action -->
+            <h2>Conclusion</h2>
+            <p>
+                I hope this post helps other residents, Joplin officials, and the police themselves understand where our concerns grow from.  We believe this system is too broad and too powerful to exist in our city.
+            </p>
+            <p>
+                We will be populating this website with our findings how we got them, and our experience along the way soon.  Where possible, we will be including the steps we took and scripts/tools we used so that others can reproduce our work and look for themselves if they like. 
+                I believe we have already found things that need to be shared.  However, many of our findings will require a dedicated blog post and we are waiting on final responses from the city on requests as well.
+            </p>
+        </section>
+        <section class="sources">
+            <!-- sources referenced -->
+             <h2>Sources Referenced</h2>
+             <li><a href="https://www.youtube.com/watch?v=uB0gr7Fh6lY">[1]We Hacked Flock Safety Cameras in Under 30 Seconds</a></li>
+             <li><a href="https://youtu.be/vU1-uiUlHTo?si=4l_9IgmLQn-mjRVW">[2]This Flock Camera Leak is like Netflix For Stalkers</a></li>
+             <li><a href="https://www.404media.co/flock-exposed-its-ai-powered-cameras-to-the-internet-we-tracked-ourselves/">[3]Flock Exposed Its AI-Powered Cameras to the Internet. We Tracked Ourselves</a></li>
+             <li><a href="https://techcrunch.com/2025/11/03/lawmakers-say-stolen-police-logins-are-exposing-flock-surveillance-cameras-to-hackers/ ">[4]Lawmakers say stolen police logins are exposing Flock surveillance cameras to hackers</a></li>
+             <li><a href="https://accesswdun.com/news/judge-denied-tpo-filed-against-former-braselton-police-chief-months-before-his-arrest">[5]Judge denied TPO filed against former Braselton Police Chief months before his arrest</a></li>
+             <li><a href="https://www.kansas.com/news/politics-government/article291059560.html">[6]Kansas police chief used Flock license plate cameras 164 times to track ex-girlfriend</a></li>
+             <li><a href="https://www.king5.com/article/news/local/license-plate-camera-error-police-arrest-washington-father-instead/281-6fa1842c-ca72-4150-a8ff-b076e456fbff">[7]A license plate camera got it wrong. Police arrested the father instead</a></li>
+             <li><a href="https://www.cbsnews.com/colorado/news/flock-cameras-lead-colorado-police-wrong-suspect/">[8]Flock cameras lead Colorado police to wrong suspect: "It became my job to prove my innocence"</a></li>
+             <li><a href="https://apnews.com/article/handcuffed-black-girls-colorado-settlement-a7a695839b8841e56b7db0d103cc5ed1">[9]Family of Black girls handcuffed by Colorado police, held at gunpoint reach $1.9 million settlement</a></li>       
+             <li><a href="https://www.aclu.org/news/national-security/surveillance-company-flock-now-using-ai-to-report-us-to-police-if-it-thinks-our-movement-patterns-are-suspicious">[10]Surveillance Company Flock Now Using AI to Report Us to Police if it Thinks Our Movement Patterns Are “Suspicious” </a></li>
+        </section>  
+    </article>
+</main>
+
+<footer>
+    <p>&copy; 2025 Deflock Joplin. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
