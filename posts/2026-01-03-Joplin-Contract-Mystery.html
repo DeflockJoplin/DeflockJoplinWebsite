@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Joplin's Flock Contract Mystery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../style.css"><!-- relative path back to root CSS -->
+</head>
+<body>
+
+<header class="site-nav">
+    <nav>
+        <a href="../index.html" class="logo">Deflock Joplin</a>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../facts.html">Facts</a></li>
+            <li><a href="../blog.html">Blog</a></li>
+            <li><a href="../#map">Map</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <article class="blog-article">
+        <h1>Joplin's Flock Contract Mystery</h1>
+
+        <p class="meta">Published on <time datetime="2026-01-04">January 4, 2026</time></p>
+
+        <section class="intro">
+            <p><em>A Peculiar Purchase Process</em></p>
+
+            <h2>Why We Started This Investigation</h2>
+
+            <p>In late 2023 a $154,200, five‑year contract with <strong>Flock&nbsp;Safety</strong> was signed by the Joplin Police Department.
+            The contract would install 10 ALPR cameras throughout Joplin. Since we have been unable to find much about this purchase, we wanted to know if proper procedure was followed when making the purchase.</p>
+
+            <p>When we searched the publicly posted council agendas, minutes, and packets using Joplin's website, we found <strong>no ordinance, motion, or budget amendment</strong> that mentioned “Flock,” “ALPR,” or even “license‑plate reader” before the contract was signed.  However, we also noted many of the documents were not full text searchable such as meeting minutes.  Why the City uploads these public records without a text layer is unknown, but we felt it was likely the City's search tool could not search these documents. We manually reviewed agendas, packets, and minutes for the 6 months prior to the contract being signed, but did not find any council business referencing Flock Safety.</p>
+
+            <p>To be absolutely sure we did not miss anything, we decided to:</p>
+            <p>
+                <ol>
+                    <li>Download every council PDF from formal council meetings (agendas, minutes, packets) from 2022‑2025.</li>
+                    <li>OCR any scanned PDFs so they contain a text layer.</li>
+                    <li>Extract the text and run a laser‑focused regular expression that captures every plausible ALPR reference.</li>
+                </ol>
+            </p>
+            <p>Below is the full, reproducible workflow we built, the code we used, and the conclusions we drew. If you aren't interested in our process and just want to see what we found, skip to the "what we found" section.</p>
+
+            <p><strong>NOTE:&nbsp;</strong>Scraping websites can be controversial.  This is not legal advice.  Before scraping a website, check the websites terms of use, robots.txt, and your jurisdiction's laws for guidance.  Limit your downloads to a polite rate with no concurrency so as not to overload the server. We checked for a terms of use and consulted robots.txt and found no prohibitions on our intended activity. We could not find a Missouri law that specifically forbids scraping websites. These documents are for public use, we had a public interest justification, and they were not meeting our needs on the city's website so we proceeded. We are posting the full steps for educational and transparency purposes. However, if you do not have a strong need to repeat our research, please consider not downloading more data than necessary from the City's website. If you would like a full copy of the pdfs that we could not upload to github, please reach out using our email contact listed on the github repo.</p>
+        </section>
+
+        <section class="body">
+            <h2>Scraping All Council PDFs</h2>
+
+            <p>The Joplin website stores every meeting page under a predictable URL pattern:</p>
+
+            <pre><code>https://www.joplinmo.org/AgendaCenter/City-Council-26?MOBILE=ON&amp;year=YYYY</code></pre>
+
+            <p>From each yearly overview page we can pull every <strong>meeting ID</strong>, then visit each meeting’s page and download every attached file (agenda, minutes, packet, etc.).</p>
+
+            <h3>The Python scraper – DownloadPdfs.py</h3>
+
+            <p><strong>What it does</strong></p>
+            
+            <table style="border-collapse: collapse; width: 100%; border: 2px solid #444;">
+                <thead>
+                    <tr>
+                        <th style="border: 1px solid #444; padding: 6px; text-align: left;">Step</th>
+                        <th style="border: 1px solid #444; padding: 6px; text-align: left;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="border: 1px solid #444; padding: 6px;">Fetch yearly index</td>
+                        <td style="border: 1px solid #444; padding: 6px;">Pulls the list of meeting IDs for 2022‑2025.</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #444; padding: 6px;">Iterate each meeting</td>
+                        <td style="border: 1px solid #444; padding: 6px;">Loads the meeting page, parses the human‑readable date (e.g., “Monday, May 1, 2023”).</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #444; padding: 6px;">Collect every downloadable file</td>
+                        <td style="border: 1px solid #444; padding: 6px;">Detects PDFs, ZIPs, DOCXs, and the special “ViewFile” links that the site uses for agendas, minutes, and packets.</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #444; padding: 6px;">Save with a deterministic name</td>
+                        <td style="border: 1px solid #444; padding: 6px;"><code>&lt;MMDDYYYY&gt;_&lt;type&gt;.&lt;ext&gt;</code> (e.g., <code>05012023_agenda.pdf</code>). This makes later processing painless.</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #444; padding: 6px;">Polite throttling</td>
+                        <td style="border: 1px solid #444; padding: 6px;">0.5 s delay between downloads, progress bars via <code>tqdm</code>.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>Running <code>python DownloadPdfs.py</code> creates a folder <code>joplin_council_pdfs/</code> with sub‑folders for each year, each containing <strong>every</strong> PDF the city has ever posted for the council.</p>
+
+            <h2>Turning Scanned PDFs into Searchable Text</h2>
+
+            <p>Many of the PDFs we downloaded are <strong>scanned images</strong> – they contain no selectable text as we mentioned earlier.
+            We used <strong><code>ocrmypdf</code></strong> (a thin wrapper around Tesseract OCR) to embed a hidden text layer, producing PDF/A‑2b files that are both archival‑grade and searchable.</p>
+
+            <h2>Extracting Plain Text from the OCR PDFs</h2>
+
+            <p>Even though the PDFs now contain a hidden text layer, searching them directly with PowerShell’s <code>Select‑String</code> is clunky.  Instead we used <strong>Poppler’s <code>pdftotext</code></strong> to dump the text into <code>.txt</code> files – a format that <code>Select‑String</code> handles perfectly.</p>
+
+            <h3>The “all‑in‑one” PowerShell search script – <code>ALPR_Search.ps1</code></h3>
+
+            <p><strong>What the script does</strong></p>
+
+            <ol>
+                <li>Diagnostics – confirms we have the correct folders and PDFs inside them.</li>
+                <li>Optional OCR – run if you need to create the searchable PDFs. We wanted to be able to run the parts separately while developing the script.</li>
+                <li>Convert each OCR‑PDF to a plain‑text <code>.txt</code> using <code>pdftotext</code>.</li>
+                <li>Run a tight regex that captures every realistic way the city might refer to ALPR equipment: 
+                <code>\b(?:flock\s* safety|flock|alpr|lpr|license[-\s]?plate(?:\s*reader)?s?)\b</code></li>
+                <li>Write clean results to <code>alpr_matches.txt</code>. Each line is: 
+                <code>&lt;full‑path‑to‑PDF&gt;:&lt;line‑number&gt;: &lt;exact snippet that matched&gt;</code></li>
+            </ol>
+
+            <p>If the file is empty, it means <strong>no ALPR‑related language appears in any searched document</strong>.</p>
+
+            <h2>What We Found</h2>
+
+            <table style="border-collapse: collapse; width: 100%; border: 2px solid #444;">
+                <thead>
+                    <tr>
+                        <th style="border: 1px solid #444; padding: 6px; text-align: left;">Metric</th>
+                        <th style="border: 1px solid #444; padding: 6px; text-align: left;">Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="border: 1px solid #444; padding: 6px;">PDFs processed (OCR‑output)</td>
+                        <td style="border: 1px solid #444; padding: 6px;">461</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #444; padding: 6px;">Text files generated</td>
+                        <td style="border: 1px solid #444; padding: 6px;">461</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #444; padding: 6px;">ALPR regex matches</td>
+                        <td style="border: 1px solid #444; padding: 6px;">20</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #444; padding: 6px;">First reference to any Flock purchase</td>
+                        <td style="border: 1px solid #444; padding: 6px;">05/13/2024 – five months after signing the contract.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><strong>Bottom line:</strong> The city <strong>never posted a council ordinance, motion, or budget amendment</strong> that authorized the $154,200 Flock Safety contract <strong>before</strong> it was signed.</p>
+
+            <p>Under Joplin’s own purchasing and procurement policy, any purchase that requires the completion of a signed contract requires formal adoption by the City Council to submit the PO to the finance department. The same policy also requires purchases over certain dollar amounts go before the council.  Depending on how the purchase was classified and if it was appropriated in the budget, we could see there being wiggle room on the dollar amount requirement.  However, the signed contract requirement is very clear. The below excerpt is from page 14 of the Purchasing and Procurement Policies document.</p>
+            <figure>
+                <img src="/assets/images/2026-01-03/PurchaseAndProcurment01.png"
+                    alt="Image of purchasing and procuerment document showing requirement of formal adoption for all contracts signed by the city"
+                    style="max-width:100%; height:auto;">
+            </figure>              
+
+            <h2>Other Possible Irregularities</h2>
+
+            <p>Given this lapse, we have also reached out to the City Attorney's office on 1/1/26 while reseraching this story to ask if they approved of the form of this contract.  According to Article VI of the Joplin Charter, the City Attorney is required to sign off on the form of all contracts and mark their approval on the contract:</p>
+            <figure>
+                <img src="/assets/images/2026-01-03/ArticleVI.png"
+                    alt="Image of Article VI showing requirement of City Attorney approval marked on the contract for all contracts"
+                    style="max-width:100%; height:auto;">
+            </figure>         
+
+            <p>No approval from the City Attorney's office is found on the Flock contracts in our possession. We also asked if the Attorney's office archived the terms of Joplin's second contract.  In the time between Joplin's first contract and the second contract, Flock moved the terms and conditions online. The website they are hosted on is subject to change without notice and cannot be archived by archive.org.  It is highly likely the terms of the second contract superseded any terms of the first contract.  We do not know what the new terms are. We did not receive a response by the time of publication.</p>
+
+            <p>In addition to not going before the council, the purchasing and procurement policy notes that requisitions should also be submitted before the placement of an order:</p>
+            <figure>
+                <img src="/assets/images/2026-01-03/PurchaseAndProcurment02.png"
+                    alt="Image of purchasing and procurement document showing PO should be submitted before order placement"
+                    style="max-width:100%; height:auto;">
+            </figure> 
+            <p>In both contracts we have POs for, it appears that the contract was signed before the PO was even entered. This seems to be another violation of Joplin's policies.</p>
+            <figure>
+                <img src="/assets/images/2026-01-03/ContractsAndPOsCombined.png"
+                    alt="Image of Article VI showing requirement of City Attorney approval marked on the contract for all contracts"
+                    style="max-width:100%; height:auto;">
+            </figure> 
+            <h2>Why Does This Matter?</h2>
+
+            <p>This matters because if the city did not follow its own procedures for procurement it opens a number of questions about fiscal accountability within the city and the police department in particular.  It also raises concerns about transparency in government.  Residents have a city council so that they can have a say in what is being decided in their community.  If city officials are entering into contracts without consulting the city council, then it is our opinion that they are subverting the democratic process.</p>
+
+
+            <p>Deflock Joplin is awaiting an official response to our inquiry at the attorney's office.  The City Clerk's office is also supposed to have another response to us by the end of 1/9/26. It is possible there are legitimate explanations for these irregularities. Once we have those responses we will post an update as well as what we think Joplin residents should do next.</p>
+
+            <h2>Sources</h2>
+
+            <ul>
+                <li><a href="/assets/files/Flock contracts-12152025115823.pdf">Flock Contracts from City Files</a></li>
+                <li><a href="/assets/files/POs.pdf">Purchase Orders from City Files</a></li>                
+                <li><a href="https://www.joplinmo.org/DocumentCenter/View/88/Part-1-Home-Rule-Charter">City Charter</a></li>
+                <li><a href="https://www.joplinmo.org/AgendaCenter/ViewFile/Item/9724?fileID=57819">Purchasing and Procurement Policies and Procedures</a></li>
+                <li><a href="https://github.com/DeflockJoplin/CouncilSearch/tree/main/joplin_council_pdfs">Github repo for the scraper</a></li>
+                <li>Tesseract OCR - <a href="https://tesseract-ocr.com/">https://tesseract-ocr.com/</a></li>
+                <li>Poppler - <a href="https://poppler.freedesktop.org/">https://poppler.freedesktop.org/</a></li>
+                
+            </ul>
+        </section>
+    </article>
+</main>
+
+<footer>
+    <p>&copy; 2025 Deflock Joplin. All rights reserved.</p>
+    <p>Deflock Joplin is not affiliated with Deflock.me / Deflock.org</p>
+</footer>
+
+</body>
+</html>

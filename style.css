@@ -139,7 +139,7 @@ p {
 }
 
 /* -------------------------------------------------
-   OPTIONAL: smooth transition when the ratio changes
+   smooth transition when the ratio changes
    ------------------------------------------------- */
 #map .iframe-wrapper {
     transition: aspect-ratio 0.3s ease, padding-bottom 0.3s ease;
@@ -166,7 +166,7 @@ p {
 .site-nav .logo {
     font-size: 1.25rem;
     font-weight: bold;
-    color: #ffffff;                     /* accent yellow */
+    color: #ffffff;                     
     text-decoration: none;
 }
 .site-nav .nav-links {
