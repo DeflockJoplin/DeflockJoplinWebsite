@@ -9,14 +9,27 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<body>
 <header class="site-nav">
-    <nav>
+    <nav class="nav-container">
+        <!-- Logo / brand -->
         <a href="index.html" class="logo">Deflock Joplin</a>
+
+        <!-- Hamburger button – hidden on large screens -->
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <!-- Three bars -->
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <!-- Nav links – will slide in/out on mobile -->
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="facts.html">Facts</a></li>
             <li><a href="blog.html">Blog</a></li>
-            <li><a href="#map">Map</a></li>   <!-- keeps the existing map anchor -->
+            <li><a href="#map">Map</a></li>
         </ul>
     </nav>
 </header>
@@ -24,6 +37,10 @@
     <h1>Deflock Joplin</h1>
     <p>Organizing Joplin and the Four States to Protect Privacy</p>
 </header>
+
+
+
+
 
 <main>
     <section id="about">
@@ -112,6 +129,6 @@
     <p>Deflock Joplin is not affiliated with Deflock.me / Deflock.org</p>
 </footer>
 
-<script src="script.js"></script>
+<script src="script.js" defer></script>
 </body>
 </html>

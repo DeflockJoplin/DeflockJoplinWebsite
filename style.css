@@ -78,8 +78,7 @@ p {
     line-height: 1.6;      /* makes lines easier to read */
 }
 
-/* If you need a different spacing only in a specific section,
-   use a more specific selector, e.g.: */
+
 #about p {
     margin-bottom: 1.2rem;
 }
@@ -118,7 +117,7 @@ p {
    PORTRAIT‑ORIENTED MAP FOR NARROW / TALL VIEWPORTS
    ------------------------------------------------- */
 
-/* 1️⃣ Narrow viewports (any device ≤ 480 CSS px wide) */
+/* 1️Narrow viewports (any device ≤ 480 CSS px wide) */
 @media (max-width: 480px) {
     #map .iframe-wrapper {
         /* Switch to a tall 3:4 ratio (portrait) */
@@ -128,7 +127,7 @@ p {
     }
 }
 
-/* 2️⃣ Devices whose *aspect‑ratio* is taller than 2:3 (≈0.667) */
+/* 2 Devices whose *aspect‑ratio* is taller than 2:3 (≈0.667) */
 @media (aspect-ratio < 2/3) {
     /* This catches phones that report a very tall screen even if the width > 480 px
        (e.g., when the user rotates the phone to portrait). */
@@ -197,6 +196,116 @@ p {
     .site-nav .nav-links a {
         padding: 0.25rem 0;
     }
+}
+/* -------------------------------------------------
+   Base navigation (desktop) – unchanged except for wrapper
+   ------------------------------------------------- */
+.site-nav {
+    background: #003366;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.nav-container {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+}
+
+/* -------------------------------------------------
+   Hamburger button (visible only on mobile)
+   ------------------------------------------------- */
+.nav-toggle {
+    display: none;                     /* hidden on large screens */
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+.nav-toggle .bar {
+    width: 100%;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+    transition: background 0.2s;
+}
+
+/* -------------------------------------------------
+   Nav links – default (desktop) layout
+   ------------------------------------------------- */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+}
+.nav-links a:hover {
+    color: #ffcc00;
+}
+
+/* -------------------------------------------------
+   Mobile layout – hide links, show hamburger
+   ------------------------------------------------- */
+@media (max-width: 600px) {
+    .nav-toggle {
+        display: flex;               /* show button */
+    }
+
+    /* Start hidden – will be shown when .open class is added */
+    .nav-links {
+        position: absolute;
+        top: 100%;                   /* just below the header */
+        left: 0;
+        right: 0;
+        background: #003366;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        max-height: 0;               /* collapsed */
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+    }
+
+    .nav-links li {
+        width: 100%;
+    }
+    .nav-links a {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* When the menu is open */
+    .nav-links.open {
+        max-height: 500px;           /* big enough for all items */
+        transition: max-height 0.4s ease-in;
+    }
+}
+
+/* -------------------------------------------------
+    animation for the hamburger → “X” when open
+   ------------------------------------------------- */
+.nav-toggle.active .bar:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.nav-toggle.active .bar:nth-child(2) {
+    opacity: 0;
+}
+.nav-toggle.active .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* Blog list styling */

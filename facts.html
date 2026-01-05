@@ -6,11 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
+<body>
 <header class="site-nav">
-    <nav>
+    <nav class="nav-container">
+        <!-- Logo / brand -->
         <a href="index.html" class="logo">Deflock Joplin</a>
+
+        <!-- Hamburger button – hidden on large screens -->
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <!-- Three bars -->
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <!-- Nav links – will slide in/out on mobile -->
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="facts.html">Facts</a></li>
@@ -59,6 +70,6 @@
     <p>&copy; 2025 Deflock Joplin. All rights reserved.</p>
     <p>Deflock Joplin is not affiliated with Deflock.me / Deflock.org</p>
 </footer>
-
+<script src="script.js" defer></script>
 </body>
 </html>
