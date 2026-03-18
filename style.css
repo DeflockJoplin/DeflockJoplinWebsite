@@ -37,7 +37,7 @@ body {
 /* Main sections */
 main { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
 section { margin-bottom: 2.5rem; }
-h2 { margin-bottom: .75rem; color: #003366; }
+h2 { margin-bottom: .75rem; color: #000000; }
 
 /* Simple form */
 form { display: flex; gap: .5rem; flex-wrap: wrap; }
@@ -78,9 +78,6 @@ p {
     line-height: 1.6;      /* makes lines easier to read */
 }
 
-h2 {
-    color:rgb(0, 0, 0);
-}
 #about p {
     margin-bottom: 1.2rem;
 }
